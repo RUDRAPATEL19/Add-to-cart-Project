@@ -98,15 +98,32 @@ const menu = [
 
       abc.unshift('all');
 
-      let a = abc.map((category) => {
+      let a = abc.map((category, sort) => {
         return `<div class="btn-container" id="btn">
             <button onclick="doFilter('${category}')" type="button" class="filter-btn" data-id="${category}">${category}</button>
+            <button onclick="doSort()" id="sort" type="button">Sort</button>
             </div>`;
       });
 
         document.getElementById("btn").innerHTML = a.join(" ");
     }   
     
+    function doSort(){
+
+
+      let sortedData = menu.sort((a, b) => {
+        if(doSort.sorted == true){
+          document.getElementById("sort").innerHTML = "high-low";
+          return a.price - b.price;
+        }else{
+          document.getElementById("sort").innerHTML = "low-high";
+          return b.price - a.price;
+        }
+      });
+      doSort.sorted = !doSort.sorted;
+
+      displayData(sortedData);
+    }
 
     function doFilter(a){
       let filteredData = a === "all" ? menu : menu.filter((item) => {
